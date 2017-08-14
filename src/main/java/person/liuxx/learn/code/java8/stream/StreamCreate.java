@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -58,6 +59,10 @@ public class StreamCreate
         // 5、使用Arrays类的静态方法将数组转为流
         Stream<String> stream5 = Arrays.stream(array);
         stream5.forEach(System.out::println);
+        System.out.println("---------");
+        // 6、使用Pattern的splitAsStream方法将字符串分割为流
+        Stream<String> stream6 = Pattern.compile("[\\P{L}]+").splitAsStream("hello as stream !");
+        stream6.forEach(System.out::println);
         System.out.println("---------");
     }
 
