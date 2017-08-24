@@ -41,6 +41,10 @@ console.log("forEach end");
 arr.map(function(e) {
   console.log(e);
 });
+console.log("-----------");
+arr.map(function(e,index) {
+  console.log(e+":"+index);
+});
 console.log("map end");
 //ES6
 for (let value of arr) {
