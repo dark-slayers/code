@@ -23,6 +23,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.google.common.base.Objects;
+
 import person.liuxx.util.log.LogUtil;
 
 /**
@@ -39,7 +41,7 @@ public class ProxyLearn
     {
         try (CloseableHttpClient httpclient = HttpClients.createDefault())
         {
-            final HttpGet httpget = new HttpGet("http://www.data5u.com/free/gwgn/index.shtml");
+            final HttpGet httpget = new HttpGet("http://www.goubanjia.com/free/index3.shtml");
             httpget.addHeader("User-Agent",
                     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.78 Safari/537.36");
             log.info("Executing request {} -> {}", httpget.getMethod(), httpget.getUri());
@@ -68,23 +70,50 @@ public class ProxyLearn
             };
             final String responseBody = httpclient.execute(httpget, responseHandler);
             Document doc = Jsoup.parse(responseBody);
-            Elements content = doc.getElementsByClass("wlist");
-            Element table = content.get(1).getElementsByTag("ul").get(0).getElementsByTag("li").get(
-                    1);
-            Elements trs = table.getElementsByTag("ul");
+            Element table = doc.getElementById("list");
+            Elements trs = table.getElementsByTag("tr");
             List<String> list = new ArrayList<>();
             for (Element tr : trs)
             {
-                String text = tr.text();
-                list.add(text);
+                Elements tds = tr.getElementsByTag("td");
+                if (tds.size() > 1)
+                {
+                    Element td = tds.get(0);
+                    Elements spans = td.getElementsByAttributeValueNot("style", "display: none;");
+                    log.info("td.size():{}", spans.size());
+                    log.info("-------------");
+                    // log.info("td:{}", td);
+                    StringBuilder text = new StringBuilder();
+                    for (Element e : spans)
+                    {
+                        if (Objects.equal(e.attr("style"), "display:none;"))
+                        {
+                            continue;
+                        }
+                        if (Objects.equal(e.tagName(), "td"))
+                        {
+                            continue;
+                        }
+                        if (spans.size() - spans.indexOf(e) == 1)
+                        {
+                            text.append(":");
+                        }
+                        log.info("td.style:{}", e.attr("style"));
+                        log.info("td.tagName():{}", e.tagName());
+                        log.info("td.text():{}", e.text());
+                        log.info("-------------");
+                        text.append(e.text());
+                    }
+                    list.add(text.toString());
+                }
             }
             log.info("list:{}", list);
-            String[] array = list.get(3).split(" ");
+            String[] array = list.get(0).split(" ");
             System.out.println(Arrays.toString(array));
-            list.stream().map(l -> l.split(" ")).filter(a -> a[0].contains(".")).forEach(a ->
+            list.stream().map(l -> l).filter(a -> a.contains(".")).forEach(a ->
             {
-                System.out.println(a[0]);
-                System.out.println(a[1]);
+                System.out.println(a);
+                System.out.println(a);
                 System.out.println("------");
             });
         } catch (IOException | URISyntaxException e)

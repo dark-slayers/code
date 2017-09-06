@@ -27,10 +27,64 @@ public class StringLearn
         System.out.println(a == b);
         String c = "AAA";
         System.out.println(a == c);
+        String s1 = "Programming";
+        String s2 = new String("Programming");
+        String s3 = "Program" + "ming";
+        System.out.println(s1 == s2);
+        System.out.println(s1 == s3);
+        System.out.println(s1 == s1.intern());
+    }
+
+    static void joinTest()
+    {
+        runTest(100);
+        runTest(10000);
+        runTest(100000);
+    }
+
+    static void runTest(int max)
+    {
+        long startTime = System.nanoTime();
+        String s = "1";
+        for (int i = 0; i < max; i++)
+        {
+            s = s + "1";
+        }
+        long useTime = (System.nanoTime() - startTime) / 1_000;
+        System.out.println("使用+操作字符串拼接" + max + "次，时间：" + useTime + "毫秒");
+        startTime = System.nanoTime();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < max; i++)
+        {
+            sb.append("1");
+        }
+        useTime = (System.nanoTime() - startTime) / 1_000;
+        System.out.println("使用StringBuilder操作字符串拼接" + max + "次，时间：" + useTime + "毫秒");
+        startTime = System.nanoTime();
+        StringBuffer sbf = new StringBuffer();
+        for (int i = 0; i < max; i++)
+        {
+            sbf.append("1");
+        }
+        useTime = (System.nanoTime() - startTime) / 1_000;
+        System.out.println("使用StringBuffer操作字符串拼接" + max + "次，时间：" + useTime + "毫秒");
+        System.out.println("--------");
     }
 
     public static void main(String[] args)
     {
-        checkQuoteChange();
+        String s = "aaabccavaa";
+        int count = 0;
+        for (;;)
+        {
+            int index = s.indexOf("a");
+            if (index < 0)
+            {
+                break;
+            }
+            count++;
+            s = s.substring(index + 1);
+        }
+        System.out.println(count);
     }
 }
