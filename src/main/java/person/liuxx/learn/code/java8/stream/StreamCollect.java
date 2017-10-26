@@ -109,18 +109,6 @@ public class StreamCollect
         System.out.println("---------------");
     }
 
-    /**
-     * @author 刘湘湘
-     * @version 1.0.0<br>
-     *          创建时间：2017年8月31日 下午3:06:09
-     * @since 1.0.0
-     * @param args
-     */
-    public static void main(String[] args)
-    {
-        // TODO 自动生成的方法存根
-    }
-
     private static Stream<String> createStream()
     {
         String[] array =

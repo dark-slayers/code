@@ -31,7 +31,6 @@ public class Run
             System.out.println(s.substring(420, 430));
         } catch (IOException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
     }

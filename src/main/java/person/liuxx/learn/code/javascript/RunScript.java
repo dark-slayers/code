@@ -54,7 +54,6 @@ public class RunScript
             a();
         } catch (IOException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
     }
@@ -108,11 +107,14 @@ class A
         }
         return po;
     }
-    String getCookie(){
-        String s=r();
-        String cookie=s.split(";")[0].substring(17);
+
+    String getCookie()
+    {
+        String s = r();
+        String cookie = s.split(";")[0].substring(17);
         return cookie;
     }
+
     @Override
     public String toString()
     {
@@ -171,7 +173,6 @@ class Script
         a.q14 = getNumber("%", ")");
         return a;
     }
-    
 
     int getNumber(String begin, String end)
     {

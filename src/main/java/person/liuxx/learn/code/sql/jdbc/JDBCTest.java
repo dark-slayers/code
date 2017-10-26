@@ -34,7 +34,6 @@ public class JDBCTest
             statement.close();
         } catch (SQLException | ClassNotFoundException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
     }
