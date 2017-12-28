@@ -8,6 +8,12 @@ package person.liuxx.learn.code.base;
  */
 public class StringLearn
 {
+    static void testEqual(){
+        String s1 = "a"; 
+        String s2 = "b"; 
+        String str6 = s1 + s2; 
+        System.out.println(str6 == "ab");
+    }
     /**
      * 引用改变
      * 
@@ -73,18 +79,6 @@ public class StringLearn
 
     public static void main(String[] args)
     {
-        String s = "aaabccavaa";
-        int count = 0;
-        for (;;)
-        {
-            int index = s.indexOf("a");
-            if (index < 0)
-            {
-                break;
-            }
-            count++;
-            s = s.substring(index + 1);
-        }
-        System.out.println(count);
+        testEqual();
     }
 }

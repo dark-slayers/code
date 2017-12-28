@@ -3,6 +3,7 @@ package person.liuxx.learn.code.java8.time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 /**
@@ -29,6 +30,12 @@ public class LocalDateTimeLearn
         LocalDate a = LocalDate.of(2017, Month.SEPTEMBER, 1);
         System.out.println(a);
     }
+    static void dateFormat()
+    {
+        LocalDate a = LocalDate.now();
+        DateTimeFormatter format=DateTimeFormatter.ofPattern("M月d日");
+        System.out.println(format.format(a));
+    }
 
     /**
      * @author 刘湘湘
@@ -39,6 +46,6 @@ public class LocalDateTimeLearn
      */
     public static void main(String[] args)
     {
-        dateShow();
+        dateFormat();
     }
 }

@@ -36,11 +36,26 @@ public class UF1 implements UF
     @Override
     public int find(int p)
     {
-        return -1;
+        return id[p];
     }
 
     @Override
     public void union(int p, int q)
     {
+        int pID = find(p);
+        int qID = find(q);
+        if (pID == qID)
+        {
+            return;
+        }
+        for (int i = 0; i < id.length; i++)
+        {
+            if (id[i] == pID)
+            {
+                id[i] = qID;
+                break;
+            }
+        }
+        count--;
     }
 }

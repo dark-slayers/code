@@ -50,4 +50,7 @@ console.log("map end");
 for (let value of arr) {
   console.log(value);
 };
+for (const [index, value] of [1, 2, 3, 4, 5].entries()) {
+  console.log(`arr[${index}] = ${value}`);
+}
 console.log("for of end");

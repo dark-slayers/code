@@ -66,14 +66,4 @@ public class Contact
     {
         return id;
     }
-
-    public static void main(String[] args)
-    {
-        Contact c = new Contact(6, 5, 9).randomNext();
-        System.out.println(c.getId());
-        System.out.println(c.up());
-        System.out.println(c.down());
-        System.out.println(c.left());
-        System.out.println(c.right());
-    }
 }

@@ -41,11 +41,9 @@ public class SingletonTest
             }
         } catch (InterruptedException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         } catch (ExecutionException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
         System.out.println("生成对象列表长度：" + list.size());

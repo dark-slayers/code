@@ -30,7 +30,6 @@ public class FileLearn
                     .forEach(p -> System.out.println(p));
         } catch (IOException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
     }
@@ -61,7 +60,6 @@ public class FileLearn
             Files.move(source, Paths.get("D:/temp/ass.js").getFileName());
         } catch (Exception e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
     }
