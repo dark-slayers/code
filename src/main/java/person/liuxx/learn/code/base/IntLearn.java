@@ -48,6 +48,10 @@ public class IntLearn
 
     public static void main(String[] args)
     {
-        a();
+        int a=2;
+        int b=3;
+        a=b;
+        b=5;
+        System.out.println(a);
     }
 }

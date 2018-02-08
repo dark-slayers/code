@@ -2,6 +2,8 @@ package person.liuxx.learn.code.base;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author 刘湘湘
@@ -29,6 +31,8 @@ public class ListLearn
         System.out.println(list1.get(0));
         System.out.println(b);
         System.out.println(list1.get(0) == b);
+        Set<String> set=new TreeSet<>();
+        System.out.println(set.size());
     }
 
     /**
