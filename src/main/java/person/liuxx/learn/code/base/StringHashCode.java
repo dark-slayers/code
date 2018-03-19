@@ -1,4 +1,4 @@
-package person.liuxx.learn.code.java.base;
+package person.liuxx.learn.code.base;
 
 import java.io.File;
 import java.util.regex.Pattern;
