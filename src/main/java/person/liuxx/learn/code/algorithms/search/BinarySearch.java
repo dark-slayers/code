@@ -81,7 +81,7 @@ public class BinarySearch
     {
         int[] a =
         { 1, 3, 4, 5, 7, 8, 10, 11, 14, 18, 20, 22, 27, 36, 47, 58, 68, 79, 80, 99, 123 };
-        int index = rank(5, null);
+        int index = rank(5, a);
         System.out.println(index);
         System.out.println(rank2(5, a, 0, a.length - 1));
     }

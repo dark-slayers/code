@@ -8,12 +8,14 @@ package person.liuxx.learn.code.base;
  */
 public class IntLearn
 {
+    static void max(){
+        int a =Integer.MAX_VALUE-10;
+        int b=a+12;
+        System.out.println(b);
+        System.out.println(b>a);
+    }
     public static void main(String[] args)
     {
-        int a = 2;
-        int b = 3;
-        a = b;
-        b = 5;
-        System.out.println(a);
+        max();
     }
 }

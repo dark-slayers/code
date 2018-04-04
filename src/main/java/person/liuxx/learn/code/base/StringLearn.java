@@ -8,12 +8,27 @@ package person.liuxx.learn.code.base;
  */
 public class StringLearn
 {
-    static void testEqual(){
-        String s1 = "a"; 
-        String s2 = "b"; 
-        String str6 = s1 + s2; 
+    static void jvmOptimization()
+    {
+        String str1 = "aaabbb";
+        String str2 = "aaa" + "bbb";
+        String str3 = "bbb";
+        String str4 = "aaa" + str3;
+        final String str5 = "bbb";
+        String str6 = "aaa" + str5;
+        System.out.println(str1 == str2);
+        System.out.println(str1 == str4);
+        System.out.println(str1 == str6);
+    }
+
+    static void testEqual()
+    {
+        String s1 = "a";
+        String s2 = "b";
+        String str6 = s1 + s2;
         System.out.println(str6 == "ab");
     }
+
     /**
      * 引用改变
      * 
@@ -79,6 +94,6 @@ public class StringLearn
 
     public static void main(String[] args)
     {
-        testEqual();
+        jvmOptimization();
     }
 }

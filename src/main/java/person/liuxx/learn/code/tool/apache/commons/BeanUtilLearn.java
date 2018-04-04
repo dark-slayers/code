@@ -1,4 +1,4 @@
-package person.liuxx.learn.code.tool.apache;
+package person.liuxx.learn.code.tool.apache.commons;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
