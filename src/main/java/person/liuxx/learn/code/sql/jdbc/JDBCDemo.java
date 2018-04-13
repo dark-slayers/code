@@ -24,7 +24,7 @@ public class JDBCDemo
         String sql = "SELECT * FROM user";
         // 带参数的SQL语句执行应使用PreparedStatement，
         // 使用PreparedStatement可以提高性能（数据库会对预编译语句进行优化）和安全性（防止参数中的SQL注入）
-        String prepareSql = "SELECT * FROM user WEHERE name = ?";
+        String prepareSql = "SELECT * FROM user WHERE name = ?";
         // 打开数据库连接需要较大的开销，项目中建议使用连接池
         try (Connection conn = conn();
                 Statement statement = conn.createStatement();
