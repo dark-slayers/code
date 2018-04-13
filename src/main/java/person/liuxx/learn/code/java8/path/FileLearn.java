@@ -66,6 +66,7 @@ public class FileLearn
 
     public static void main(String[] args)
     {
-        s();
+        s();f();
+        run();
     }
 }
