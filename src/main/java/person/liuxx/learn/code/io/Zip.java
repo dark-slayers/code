@@ -52,7 +52,7 @@ public class Zip
 
     private static void createZip(Path p, ZipOutputStream zout, Path sourceDir)
     {
-        String fileName = p.relativize(sourceDir).toString();
+        String fileName = sourceDir.relativize(p).toString();
         System.out.println(fileName);
         if (Files.isDirectory(p))
         {
