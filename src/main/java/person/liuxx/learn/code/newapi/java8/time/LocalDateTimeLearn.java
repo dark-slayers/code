@@ -1,4 +1,4 @@
-package person.liuxx.learn.code.java8.time;
+package person.liuxx.learn.code.newapi.java8.time;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

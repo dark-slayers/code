@@ -59,11 +59,9 @@ class A
             e.printStackTrace();
         } catch (IllegalArgumentException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         } catch (IllegalAccessException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
     }

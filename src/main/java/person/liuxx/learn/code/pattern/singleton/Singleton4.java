@@ -8,17 +8,19 @@ package person.liuxx.learn.code.pattern.singleton;
  */
 public class Singleton4
 {
-    private static Singleton4 instance = new Singleton4();
-    private static boolean hasInstance = true;
+    private static final Singleton4 instance;
+    private static final boolean hasInstance;
+    static
+    {
+        instance = new Singleton4();
+        hasInstance = true;
+    }
 
     private Singleton4()
     {
         if (hasInstance)
         {
-            throw new AssertionError("禁止多次调用构造器！");
-        } else
-        {
-            hasInstance = true;
+            throw new AssertionError("禁止多次调用单例构造器！");
         }
     }
 

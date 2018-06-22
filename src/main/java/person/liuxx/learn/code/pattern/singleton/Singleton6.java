@@ -1,5 +1,7 @@
 package person.liuxx.learn.code.pattern.singleton;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * @author 刘湘湘
  * @version 1.0.0<br>
@@ -13,16 +15,13 @@ public class Singleton6
         static Singleton6 instance = new Singleton6();
     };
 
-    private static boolean hasInstance = false;
+    private static AtomicBoolean hasInstance = new AtomicBoolean(false);
 
     private Singleton6()
     {
-        if (hasInstance)
+        if (!hasInstance.compareAndSet(false, true))
         {
             throw new AssertionError("禁止多次调用单例构造器！");
-        } else
-        {
-            hasInstance = true;
         }
     }
 

@@ -13,12 +13,20 @@ public class ArrayDemo
 {
     public void run()
     {
+        limit();
+    }
+
+    void limit()
+    {
         int max = Integer.MAX_VALUE;
         // java.lang.OutOfMemoryError: Requested array size exceeds VM limit
-        List<String> list = new ArrayList<>(max);
+        new ArrayList<>(max);
+        List<String> list = new ArrayList<>(1000 * 1000 * 20 * 20);
         System.out.println(list.size());
         // java.lang.OutOfMemoryError: Java heap space
-        String[] a = new String[max - 10000000];
+        String[] a1 = new String[max - 10000000];
+        System.out.println(a1.length);
+        int[] a = new int[1000 * 1000 * 200];
         System.out.println(a.length);
     }
 }

@@ -1,4 +1,4 @@
-package person.liuxx.learn.code.java8.stream;
+package person.liuxx.learn.code.newapi.java8.stream;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;

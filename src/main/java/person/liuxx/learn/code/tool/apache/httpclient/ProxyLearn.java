@@ -1,4 +1,4 @@
-package person.liuxx.learn.code.net.httpclient;
+package person.liuxx.learn.code.tool.apache.httpclient;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

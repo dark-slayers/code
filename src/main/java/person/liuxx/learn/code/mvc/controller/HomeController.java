@@ -1,4 +1,4 @@
-package person.liuxx.learn.code.controller;
+package person.liuxx.learn.code.mvc.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 

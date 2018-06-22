@@ -48,15 +48,12 @@ public class BeanUtilLearn
             BeanUtils.copyProperties(ac, a);
         } catch (IllegalAccessException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         } catch (InvocationTargetException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         } catch (NoSuchMethodException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
         System.out.println(ac);

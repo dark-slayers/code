@@ -1,4 +1,4 @@
-package person.liuxx.learn.code.java7.path;
+package person.liuxx.learn.code.newapi.java7.path;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
