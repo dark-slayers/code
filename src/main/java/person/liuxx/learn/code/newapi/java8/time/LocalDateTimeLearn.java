@@ -30,11 +30,13 @@ public class LocalDateTimeLearn
         LocalDate a = LocalDate.of(2017, Month.SEPTEMBER, 1);
         System.out.println(a);
     }
+
     static void dateFormat()
     {
-        LocalDate a = LocalDate.now();
-        DateTimeFormatter format=DateTimeFormatter.ofPattern("M月d日");
-        System.out.println(format.format(a));
+        LocalDateTime a = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String s = "to_date('" + format.format(a) + "','yyyy-mm-dd hh24:mi:ss')";
+        System.out.println(s);
     }
 
     /**

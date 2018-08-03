@@ -68,6 +68,11 @@
 			<artifactId>sqljdbc4</artifactId>
 			<version>4.0</version>
 		</dependency>
+		<!-- hibernate java 8支持 -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-java8</artifactId>
+		</dependency>
 		<!-- 连接池 -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
