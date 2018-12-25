@@ -48,24 +48,21 @@ public class StreamCollect
         Set<String> set1 = stream.parallel().collect(Collectors.toSet());
         System.out.println(set1);
         stream = createStream();
-        TreeSet<String> treeSet = stream.parallel().collect(Collectors.toCollection(
+        TreeSet<String> treeSet = stream.parallel().collect(Collectors.toCollection(TreeSet::new));
+        System.out.println(treeSet);
+        stream = createStream();
+        treeSet = stream.parallel().map(String::toUpperCase).collect(Collectors.toCollection(
                 TreeSet::new));
         System.out.println(treeSet);
         stream = createStream();
-        treeSet = stream.parallel().map(String::toUpperCase).collect(Collectors
-                .toCollection(TreeSet::new));
-        System.out.println(treeSet);
-        stream = createStream();
-        String s = stream.parallel().map(String::toUpperCase).collect(Collectors
-                .joining());
+        String s = stream.parallel().map(String::toUpperCase).collect(Collectors.joining());
         System.out.println(s);
         stream = createStream();
         // 将流中的每个元素字符串使用<->拼接
         s = stream.parallel().map(String::toUpperCase).collect(Collectors.joining("<->"));
         System.out.println(s);
         stream = createStream();
-        IntSummaryStatistics summary = stream.collect(Collectors.summarizingInt(
-                String::length));
+        IntSummaryStatistics summary = stream.collect(Collectors.summarizingInt(String::length));
         double avg = summary.getAverage();
         System.out.println("avg:" + avg);
         double count = summary.getCount();
@@ -85,24 +82,22 @@ public class StreamCollect
         System.out.println(idToName);
         System.out.println("---------------");
         stream = list.stream();
-        Map<Integer, Person> idToPerson = stream.collect(Collectors.toMap(Person::getId,
-                Function.identity()));
+        Map<Integer, Person> idToPerson = stream.collect(Collectors.toMap(Person::getId, Function
+                .identity()));
         System.out.println(idToPerson);
         System.out.println("---------------");
         stream = list.stream();
-        Map<String, Person> nameToPerson = stream.collect(Collectors.toMap(
-                Person::getName, Function.identity(), (existingValue,
-                        newValue) -> newValue));
+        Map<String, Person> nameToPerson = stream.collect(Collectors.toMap(Person::getName, Function
+                .identity(), (existingValue, newValue) -> newValue));
         System.out.println(nameToPerson);
         System.out.println("---------------");
         stream = list.stream();
-        Map<String, List<Person>> listMap = stream.collect(Collectors.groupingBy(
-                Person::getName));
+        Map<String, List<Person>> listMap = stream.collect(Collectors.groupingBy(Person::getName));
         System.out.println(listMap);
         System.out.println("---------------");
         stream = list.stream();
-        Map<String, Set<Person>> nameToPersonSet = stream.collect(Collectors.toMap(
-                Person::getName, Collections::singleton, (a, b) ->
+        Map<String, Set<Person>> nameToPersonSet = stream.collect(Collectors.toMap(Person::getName,
+                Collections::singleton, (a, b) ->
                 {
                     Set<Person> r = new HashSet<>(a);
                     r.addAll(b);
@@ -110,10 +105,24 @@ public class StreamCollect
                 }));
         System.out.println(nameToPersonSet);
         System.out.println("---------------");
+        Map<String, Set<Integer>> nameToAgeSet = stream.collect(Collectors.toMap(Person::getName,
+                p ->
+                {
+                    Set<Integer> r = new HashSet<>();
+                    r.add(p.getAge());
+                    return r;
+                }, (a, b) ->
+                {
+                    Set<Integer> r = new HashSet<>(a);
+                    r.addAll(b);
+                    return r;
+                }));
+        System.out.println(nameToAgeSet);
+        System.out.println("---------------");
         stream = list.stream();
         TreeMap<String, Person> nameToPersonTreeMap = stream.collect(Collectors.toMap(
-                Person::getName, Function.identity(), (existingValue,
-                        newValue) -> newValue, TreeMap::new));
+                Person::getName, Function.identity(), (existingValue, newValue) -> newValue,
+                TreeMap::new));
         System.out.println(nameToPersonTreeMap);
         System.out.println("---------------");
     }
