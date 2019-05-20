@@ -18,9 +18,12 @@ public class Singleton2
 
     private Singleton2()
     {
-        if (hasInstance)
+        synchronized (Singleton2.class)
         {
-            throw new AssertionError("禁止多次调用构造器！");
+            if (hasInstance)
+            {
+                throw new AssertionError("禁止多次调用构造器！");
+            }
         }
     }
 

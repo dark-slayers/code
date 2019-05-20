@@ -2,24 +2,28 @@ package person.liuxx.learn.code.tool.apache.poi.excel;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 /**
  * @author 刘湘湘
@@ -29,67 +33,146 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
  */
 public class Code
 {
-    static void compareCode()
+    private static final Path OUTPUT_PATH = Paths.get("./output.xlsx");
+    private static final Path SRC_PATH = Paths.get("./原始数据/");
+    // private static final Path OUTPUT_PATH =
+    // Paths.get("E:/项目/EXCEL工具/output.xlsx");
+    // private static final Path SRC_PATH = Paths.get("E:/项目/EXCEL工具/原始数据/");
+
+    class Line
     {
-        Set<String> plmCodeSet = parseExcel(Paths.get("./plm.xlsx"));
-        Set<String> erpCodeSet = parseExcel(Paths.get("./erp.xlsx"));
-        Set<String> sameSet = plmCodeSet.stream().filter(s -> erpCodeSet.contains(s)).collect(
-                Collectors.toSet());
-        Set<String> plmRemainCodeSet = plmCodeSet.stream()
-                .filter(s -> !sameSet.contains(s))
-                .collect(Collectors.toSet());
-        Set<String> erpRemainCodeSet = erpCodeSet.stream()
-                .filter(s -> !sameSet.contains(s))
-                .collect(Collectors.toSet());
-        List<String> lines = new ArrayList<>();
-        lines.add("ERP与PLM中相同的物料数量：" + sameSet.size());
-        lines.add("\n");
-        lines.add("除去相同部分，PLM剩余物料数量：" + plmRemainCodeSet.size());
-        lines.add("PLM剩余物料：");
-        for (String s : plmRemainCodeSet)
-        {
-            lines.add(s);
-        }
-        lines.add("\n");
-        lines.add("除去相同部分，ERP剩余物料数量：" + erpRemainCodeSet.size());
-        lines.add("ERP剩余物料：");
-        for (String s : erpRemainCodeSet)
-        {
-            lines.add(s);
-        }
-        try
-        {
-            Files.write(Paths.get("./erp.xlsx"),lines);
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        String time;
+        String item;
+        String type;
+        double number;
+        double money;
     }
 
-    private static Set<String> parseExcel(Path path)
+    private static Stream<Line> parseExcel(Path path)
     {
-        Set<String> result = new HashSet<>();
+        System.out.println("读取文件：" + path);
+        List<Line> result = new ArrayList<>();
         try (InputStream input = Files.newInputStream(path);
                 Workbook workBook = WorkbookFactory.create(input);)
         {
+            String fileName = path.getFileName().toString();
+            int dotIndex = fileName.lastIndexOf('.');
+            String time = fileName.substring(0, dotIndex);
             Sheet sheet = workBook.getSheetAt(0);
+            Map<Integer, String> map = new HashMap<>();
             for (Row row : sheet)
             {
-                Optional.ofNullable(row)
-                        .map(r -> row.getCell(0))
-                        .filter(c -> Objects.equals(c.getCellTypeEnum(), CellType.STRING))
-                        .map(c -> c.getStringCellValue())
-                        .ifPresent(s -> result.add(s));
+                if (Objects.equals(0, row.getRowNum()))
+                {
+                    for (int k = 1, max = row.getLastCellNum(); k < max; k = k + 2)
+                    {
+                        Cell cell = row.getCell(k);
+                        map.put(k, cell.getStringCellValue());
+                    }
+                } else
+                {
+                    Cell c = row.getCell(0);
+                    if (Objects.isNull(c))
+                    {
+                        continue;
+                    }
+                    c.setCellType(CellType.STRING);
+                    String item = c.getStringCellValue();
+                    if (item.trim().length() < 1)
+                    {
+                        continue;
+                    }
+                    for (int k = 1, max = row.getLastCellNum(); k < max; k = k + 2)
+                    {
+                        Cell cell = row.getCell(k);
+                        double number = readCell(cell).orElse((double) 0);
+                        Cell cell2 = row.getCell(k + 1);
+                        double money = readCell(cell2).orElse((double) 0);
+                        if (number != 0 || money != 0)
+                        {
+                            Line line = new Code().new Line();
+                            line.time = time;
+                            line.item = item;
+                            line.number = number;
+                            line.money = money;
+                            line.type = map.get(k);
+                            result.add(line);
+                        }
+                    }
+                }
             }
         } catch (IOException | EncryptedDocumentException | InvalidFormatException e)
+        {
+            e.printStackTrace();
+        }
+        return result.stream();
+    }
+
+    private static Optional<Double> readCell(Cell cell)
+    {
+        Optional<Double> result = Optional.ofNullable(cell).map(c ->
+        {
+            c.setCellType(CellType.NUMERIC);
+            return cell.getNumericCellValue();
+        });
+        return result;
+    }
+
+    private static List<Line> readDir()
+    {
+        List<Line> result = new ArrayList<>();
+        try
+        {
+            result = Files.walk(SRC_PATH)
+                    .filter(f -> f.getFileName().toString().endsWith(".xlsx"))
+                    .flatMap(f -> parseExcel(f))
+                    .collect(Collectors.toList());
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
         return result;
     }
 
+    private static void writeFile(List<Line> list)
+    {
+        System.out.println("输出合并后的文件");
+        try (SXSSFWorkbook wb = new SXSSFWorkbook(1000);
+                OutputStream out = Files.newOutputStream(OUTPUT_PATH);)
+        {
+            Sheet sh = wb.createSheet();
+            for (int i = 0, max = list.size(); i < max; i++)
+            {
+                Row row = sh.createRow(i);
+                Line line = list.get(i);
+                Cell cell = row.createCell(0);
+                cell.setCellValue(line.time);
+                cell = row.createCell(1);
+                cell.setCellValue(line.item);
+                cell = row.createCell(2);
+                cell.setCellValue(line.number);
+                cell = row.createCell(3);
+                cell.setCellValue(line.money);
+                cell = row.createCell(4);
+                cell.setCellValue(line.type);
+            }
+            wb.write(out);
+            wb.dispose();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    static void mergeExcel()
+    {
+        List<Line> list = readDir();
+        list.sort((o1, o2) -> o1.item.compareTo(o2.item));
+        writeFile(list);
+    }
+
     public static void main(String[] args)
     {
-        compareCode();
+        mergeExcel();
     }
 }

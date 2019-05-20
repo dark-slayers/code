@@ -47,7 +47,7 @@ public class Temp
         }
     }
 
-    private static int intValue(Row r)
+    static int intValue(Row r)
     {
         Optional<Cell> cellOptional = Optional.ofNullable(r).map(row -> row.getCell(0));
         Optional<Integer> cellValue = cellOptional.map(cell ->

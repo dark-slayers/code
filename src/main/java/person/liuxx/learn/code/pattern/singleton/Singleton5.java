@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Singleton5
 {
     private volatile static Singleton5 instance;
-    private static boolean hasInstance = false;
+    private volatile static boolean hasInstance = false;
 
     private Singleton5()
     {
