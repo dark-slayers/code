@@ -3,13 +3,15 @@ package person.liuxx.learn.code.base.util.List;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import person.liuxx.learn.code.mvc.Demo;
+
 /**
  * @author 刘湘湘
  * @version 1.0.0<br>
  *          创建时间：2018年5月17日 上午9:23:50
  * @since 1.0.0
  */
-public class ArrayListDemo
+public class ArrayListDemo implements Demo
 {
     public void run()
     {

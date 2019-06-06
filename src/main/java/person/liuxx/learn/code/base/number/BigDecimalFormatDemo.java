@@ -4,13 +4,15 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
+import person.liuxx.learn.code.mvc.Demo;
+
 /**
  * @author 刘湘湘
  * @version 1.4.2<br>
  *          创建时间：2018年12月13日 下午1:35:56
  * @since 1.4.2
  */
-public class BigDecimalFormatDemo
+public class BigDecimalFormatDemo implements Demo
 {
     public void run()
     {
@@ -33,7 +35,6 @@ public class BigDecimalFormatDemo
         System.out.println(df4.format(new BigDecimal(3613.6135)));
         System.out.println(df4.format(new BigDecimal(563456363613.6136)));
         DecimalFormat df5 = new DecimalFormat("#,##0.##");
-
         System.out.println(df5.format(new BigDecimal(563456363613.6136)));
         System.out.println(df5.format(new BigDecimal(563456363613.6176)));
         System.out.println(df5.format(new BigDecimal(563456363613.00000)));

@@ -1,4 +1,4 @@
-package person.liuxx.learn.code.io;
+package person.liuxx.learn.code.io.file;
 
 import java.io.IOException;
 import java.io.InputStream;

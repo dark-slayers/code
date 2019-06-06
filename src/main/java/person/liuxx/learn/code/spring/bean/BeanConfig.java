@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Primary;
  * @since 1.0.0
  */
 @Configuration
-@ComponentScan("person.liuxx.learn.code.spring.bean")
+@ComponentScan(
+{ "person.liuxx.learn.code.spring.bean", "person.liuxx.learn.code.mvc.service.impl" })
 public class BeanConfig
 {
     @Primary
