@@ -82,7 +82,6 @@ public class ArrayListDemo implements Demo
                 | SecurityException
                 | IllegalAccessException e1)
         {
-            // TODO 自动生成的 catch 块
             e1.printStackTrace();
         }
     }

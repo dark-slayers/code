@@ -1,4 +1,4 @@
-package person.liuxx.learn.code.base;
+package person.liuxx.learn.code.base.reflection;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -12,7 +12,7 @@ import java.lang.reflect.Modifier;
 public class FinalDemo
 {
     private final String a;
-    private final String f1="AAA";
+    private final String f1 = "AAA";
     private static final String b;
     static
     {
@@ -27,7 +27,6 @@ public class FinalDemo
 
     void updateFinal()
     {
-       
         try
         {
             Field field = this.getClass().getDeclaredField("a");
@@ -39,41 +38,40 @@ public class FinalDemo
             field = this.getClass().getDeclaredField("b");
             Field modifiers = field.getClass().getDeclaredField("modifiers");
             modifiers.setAccessible(true);
-            modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);//fianl标志位置0
+            modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);// fianl标志位置0
             field.setAccessible(true);
             field.set(this, "ZZZ");
-//            System.out.println(field.get(this));
+            // System.out.println(field.get(this));
         } catch (IllegalArgumentException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         } catch (IllegalAccessException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
         // p.printName();
         catch (NoSuchFieldException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         } catch (SecurityException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
     }
-    void show(){
+
+    void show()
+    {
         System.out.println("-------show-----");
-        System.out.println("a ： "+a);
-        System.out.println("f1 ： "+f1);
-        System.out.println("b ： "+b);
+        System.out.println("a ： " + a);
+        System.out.println("f1 ： " + f1);
+        System.out.println("b ： " + b);
         System.out.println("-------show-----");
     }
 
     public static void main(String[] args)
     {
-        FinalDemo f = new FinalDemo();f.show();
+        FinalDemo f = new FinalDemo();
+        f.show();
         f.updateFinal();
         f.show();
     }

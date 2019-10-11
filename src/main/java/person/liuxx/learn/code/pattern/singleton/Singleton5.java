@@ -23,6 +23,10 @@ public class Singleton5
 
     public static Singleton5 getInstance()
     {
+        // 如果instance对象未加volatile修饰，则可能出现如下异常：
+        // thread1检查instance对象不存在，thread1加锁，并且实例化instance对象。
+        // thread2检查instance对象存在，返回instance对象。
+        // 由于thread2中不存在可视边界，获取到的instance对象可能为未初始化完成的错误对象。
         if (Objects.isNull(instance))
         {
             synchronized (Singleton5.class)

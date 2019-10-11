@@ -193,7 +193,6 @@ public class CaptureScreen2
             Thread.sleep(8000);
         } catch (InterruptedException | IOException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
         // 再次截图 一个矩形区域

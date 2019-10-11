@@ -38,7 +38,6 @@ public class FileWalk
             });
         } catch (IOException e)
         {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
     }

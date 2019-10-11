@@ -1,4 +1,4 @@
-package person.liuxx.learn.code.base;
+package person.liuxx.learn.code.base.reflection;
 
 import java.lang.reflect.Field;
 
@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
  *          创建时间：2018年8月2日 下午4:44:30
  * @since 1.0.0
  */
-public class A
+public class FinalModifyDemo2
 {
     private final String a = null==null?"A":"B";
 
@@ -27,7 +27,7 @@ public class A
 
     public static void main(String[] args)
     {
-        A a = new A();
+        FinalModifyDemo2 a = new FinalModifyDemo2();
         try
         {
             a.update();
