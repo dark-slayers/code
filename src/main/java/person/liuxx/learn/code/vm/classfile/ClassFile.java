@@ -6,11 +6,12 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
-import java.util.regex.Pattern;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 
@@ -24,9 +25,12 @@ public class ClassFile
 {
     private Queue<Integer> queue;
     private final String magicNumber;
-    private final int masterVersionNumber, slaveVersionNumber, constantPoolNumber;
-    private ConstantPool constantPool;
-    private String accessFlags;
+    private final int masterVersionNumber, slaveVersionNumber;
+    private final ConstantPool constantPool;
+    private int accessFlags;
+    private final int thisClassIndex, superClassIndex, interfaceCount;
+    private List<Integer> interfaceIndexList;
+    private final FieldInfoTable fieldInfoTable;
 
     public ClassFile(Path path)
     {
@@ -34,9 +38,17 @@ public class ClassFile
         magicNumber = QueueUtil.hexString(queue, 4);
         slaveVersionNumber = QueueUtil.getInt(queue, 2);
         masterVersionNumber = QueueUtil.getInt(queue, 2);
-        constantPoolNumber = QueueUtil.getInt(queue, 2) - 1;
-        constantPool = new ConstantPool(queue, constantPoolNumber);
-        accessFlags = QueueUtil.hexString(queue, 2);
+        constantPool = new ConstantPool(queue);
+        accessFlags = QueueUtil.getInt(queue, 2);
+        thisClassIndex = QueueUtil.getInt(queue, 2);
+        superClassIndex = QueueUtil.getInt(queue, 2);
+        interfaceCount = QueueUtil.getInt(queue, 2);
+        interfaceIndexList = new ArrayList<>();
+        for (int i = 0; i < interfaceCount; i++)
+        {
+            interfaceIndexList.add(QueueUtil.getInt(queue, 2));
+        }
+        fieldInfoTable = new FieldInfoTable(queue);
     }
 
     private byte[] getByteArray(Path path)
@@ -79,70 +91,51 @@ public class ClassFile
         return masterVersionNumber;
     }
 
-    public int getConstantPoolNumber()
-    {
-        return constantPoolNumber;
-    }
-
     public ConstantPool getConstantPool()
     {
         return constantPool;
     }
 
-    public String getAccessFlags()
+    public int getAccessFlags()
     {
         return accessFlags;
     }
 
-    public void showAccessFlags()
+    public int getThisClassIndex()
     {
-        List<String> flags = new ArrayList<>();
-        LinkedList<String> f = Pattern.compile("").splitAsStream(accessFlags).collect(
-                LinkedList::new, LinkedList::add, LinkedList::addAll);
-        int i = Integer.valueOf(f.pop());
-        if (i % 2 == 1)
-        {
-            flags.add("ACC_SYNTHETIC");
-            i = i - 1;
-        }
-        if (i >= 4)
-        {
-            flags.add("ACC_ENUM");
-            i = i - 4;
-        }
-        if (i == 2)
-        {
-            flags.add("ACC_ANNOTATION");
-        }
-        i = Integer.valueOf(f.pop());
-        if (i >= 4)
-        {
-            flags.add("ACC_ABSTRACT");
-            i = i - 4;
-        }
-        if (i == 2)
-        {
-            flags.add("ACC_INTERFACE");
-        }
-        i = Integer.valueOf(f.pop());
-        if (i % 2 == 1)
-        {
-            flags.add("ACC_FINAL");
-            i = i - 1;
-        }
-        if (i == 2)
-        {
-            flags.add("ACC_SUPER");
-        }
-        i = Integer.valueOf(f.pop());
-        if (i == 1)
-        {
-            flags.add("ACC_PIUBLIC");
-        }
-        System.out.println("accessFlags : " + flags);
+        return thisClassIndex;
     }
 
-    void show()
+    public int getSuperClassIndex()
+    {
+        return superClassIndex;
+    }
+
+    public int getInterfaceIndex()
+    {
+        return interfaceCount;
+    }
+
+    public FieldInfoTable getFieldInfoTable()
+    {
+        return fieldInfoTable;
+    }
+
+    private Map<Integer, String> getClassAccessFlagsMap()
+    {
+        Map<Integer, String> map = new HashMap<>();
+        map.put(0x0001, "ACC_PIUBLIC");
+        map.put(0x0010, "ACC_FINAL");
+        map.put(0x0020, "ACC_SUPER");
+        map.put(0x0200, "ACC_INTERFACE");
+        map.put(0x0400, "ACC_ABSTRACT");
+        map.put(0x1000, "ACC_SYNTHETIC");
+        map.put(0x2000, "ACC_ANNOTATION");
+        map.put(0x4000, "ACC_ENUM");
+        return map;
+    }
+
+    public void show()
     {
         System.out.println("magicNumber : " + getMagicNumber());
         boolean isClassFile = Objects.equals("cafebabe", getMagicNumber());
@@ -153,9 +146,20 @@ public class ClassFile
         }
         System.out.println("versionNumber : " + getMasterVersionNumber() + "."
                 + getSlaveVersionNumber());
-        System.out.println("constantPoolNumber : " + getConstantPoolNumber());
-        System.out.println("pool : " + getConstantPool());
-        System.out.println("accessFlags : " + getAccessFlags());
-        showAccessFlags();
+        getConstantPool().show();
+        AccessFlagsUtil.show("accessFlags", getClassAccessFlagsMap(), accessFlags);
+        showClassIndex();
+        getFieldInfoTable().show(getConstantPool());
+    }
+
+    private void showClassIndex()
+    {
+        constantPool.show("thisClassIndex", thisClassIndex);
+        constantPool.show("superClassIndex", superClassIndex);
+        System.out.println("interfaceCount : " + interfaceCount);
+        for (int i = 0; i < interfaceCount; i++)
+        {
+            constantPool.show("interface" + (i + 1), interfaceIndexList.get(i));
+        }
     }
 }

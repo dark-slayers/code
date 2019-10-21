@@ -1,15 +1,35 @@
 package person.liuxx.learn.code.base.number;
 
-/** 
-* @author  刘湘湘 
-* @version 1.0.0<br>创建时间：2019年10月10日 下午3:35:05
-* @since 1.0.0 
-*/
+import java.util.LinkedList;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+/**
+ * @author 刘湘湘
+ * @version 1.0.0<br>
+ *          创建时间：2019年10月10日 下午3:35:05
+ * @since 1.0.0
+ */
 public class IntegerParse
 {
-    public static void main(String[] args){
-        int i=0x0021;
-        int s=0x1000|0x2000|0x4000;
-        System.out.println(Integer.toHexString(s));
+    public static void main(String[] args)
+    {
+        f();
+    }
+
+    static void f()
+    {
+        String s = "6a6176612f6c616e672f";
+        LinkedList<String> list = Pattern.compile("").splitAsStream(s).collect(Collectors
+                .toCollection(LinkedList::new));
+        int length = list.size() / 2;
+        byte[] array = new byte[length];
+        for (int i = 0; i < length; i++)
+        {
+            String tt = list.pop() + list.pop();
+            array[i] = (byte) Integer.parseInt(tt, 16);
+        }
+        String r = new String(array);
+        System.out.println(r);
     }
 }

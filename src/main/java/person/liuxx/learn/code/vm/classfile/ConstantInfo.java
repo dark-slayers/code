@@ -1,8 +1,12 @@
 package person.liuxx.learn.code.vm.classfile;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Queue;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @author 刘湘湘
@@ -13,6 +17,7 @@ import java.util.Queue;
 public class ConstantInfo
 {
     private final List<String> list;
+    private String des;
     private int[] typeArray1 =
     { 2, 1 };
     private int[] typeArray2 =
@@ -51,9 +56,10 @@ public class ConstantInfo
         {
         case 1:
             {
-                int length=QueueUtil.getInt(queue, typeArray1[0]);
+                int length = QueueUtil.getInt(queue, typeArray1[0]);
                 list.add(Integer.toString(length));
-                list.add(QueueUtil.hexString(queue, length));
+                des = initDes(QueueUtil.hexString(queue, length));
+                list.add(des);
                 break;
             }
         case 3:
@@ -135,6 +141,34 @@ public class ConstantInfo
     public List<String> getList()
     {
         return list;
+    }
+
+    String initDes(String text)
+    {
+        if (Objects.isNull(text))
+        {
+            return null;
+        }
+        LinkedList<String> list = Pattern.compile("").splitAsStream(text).collect(Collectors
+                .toCollection(LinkedList::new));
+        int length = list.size() / 2;
+        byte[] array = new byte[length];
+        for (int i = 0; i < length; i++)
+        {
+            String tt = list.pop() + list.pop();
+            array[i] = (byte) Integer.parseInt(tt, 16);
+        }
+        return new String(array);
+    }
+
+    public String getDes()
+    {
+        return des;
+    }
+
+    public void setDes(String des)
+    {
+        this.des = des;
     }
 
     @Override

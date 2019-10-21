@@ -12,8 +12,9 @@ import java.nio.file.Paths;
 public class ReadClassFile
 {
     static String p1 = "E:/GitHYC/delivery/target/classes/cn/hyc/mis/delivery/service/impl/PersonPlanServiceImpl.class";
-    static String p2 = "E:/dshell/A.class";
-    static String p3 = "E:/dshell/B.class";
+    static String a = "E:/dshell/A.class";
+    static String b = "E:/dshell/B.class";
+    static String c = "E:/dshell/C.class";
     static String p4 = "E:/GitProject/util/target/classes/person/liuxx/util/base/StringUtil.class";
 
     /**
@@ -25,8 +26,20 @@ public class ReadClassFile
      */
     public static void main(String[] args)
     {
-        Path path = Paths.get(p2);
+        test();
+        System.out.println("------------------");
+//        showCF();
+    }
+
+    static void showCF()
+    {
+        Path path = Paths.get(c);
         ClassFile cf = new ClassFile(path);
         cf.show();
+    }
+
+    static void test()
+    {
+        AccessFlagsUtil.test(10);
     }
 }
