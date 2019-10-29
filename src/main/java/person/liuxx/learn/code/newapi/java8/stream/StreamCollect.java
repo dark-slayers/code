@@ -96,6 +96,11 @@ public class StreamCollect
         System.out.println(listMap);
         System.out.println("---------------");
         stream = list.stream();
+        Map<Boolean, List<Person>> listMap2 = stream.collect(Collectors.partitioningBy(p -> p
+                .getAge() > 20));
+        System.out.println(listMap2);
+        System.out.println("---------------");
+        stream = list.stream();
         Map<String, Set<Person>> nameToPersonSet = stream.collect(Collectors.toMap(Person::getName,
                 Collections::singleton, (a, b) ->
                 {

@@ -26,9 +26,9 @@ public class ReadClassFile
      */
     public static void main(String[] args)
     {
-        test();
+//        test();
         System.out.println("------------------");
-//        showCF();
+        showCF();
     }
 
     static void showCF()

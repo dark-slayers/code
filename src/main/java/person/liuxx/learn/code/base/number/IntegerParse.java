@@ -14,7 +14,29 @@ public class IntegerParse
 {
     public static void main(String[] args)
     {
-        f();
+        s(4);
+    }
+
+    static void s(int i)
+    {
+        intTo2(i);
+        intTo8(i);
+        intTo16(i);
+    }
+
+    static void intTo2(int i)
+    {
+        System.out.println(Integer.toBinaryString(i));
+    }
+
+    static void intTo8(int i)
+    {
+        System.out.println(Integer.toOctalString(i));
+    }
+
+    static void intTo16(int i)
+    {
+        System.out.println(Integer.toHexString(i));
     }
 
     static void f()
