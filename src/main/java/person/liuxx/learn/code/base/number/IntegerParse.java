@@ -14,6 +14,8 @@ public class IntegerParse
 {
     public static void main(String[] args)
     {
+        int i=0xAD;
+        System.out.println(i);
         s(4);
     }
 
