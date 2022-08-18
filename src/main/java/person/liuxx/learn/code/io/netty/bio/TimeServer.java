@@ -43,7 +43,6 @@ public class TimeServer {
                 new Thread(new TimeServerHandler(socket)).start();
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
             if (Objects.nonNull(server)) {

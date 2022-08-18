@@ -27,7 +27,7 @@ public class ReadLogFiles {
                 .splitAsStream(LocalDate.now().toString())
                 .skip(2)
                 .collect(Collectors.joining());
-        read(path, defalutLineNumber, todatString+" at ", "ERROR", "","");
+        read(path, defalutLineNumber, todatString+" at ", "updateState", "","");
 //        read(path, defalutLineNumber,  "table_id: 3440", "");
     }   
 
