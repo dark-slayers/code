@@ -21,13 +21,14 @@ import java.util.stream.Stream;
 public class ReadLogFiles {
     public static void main(String[] args) {
 //         String path = "E:/shell/bala-app/logs/sql1.txt";
-        String path = "E:/shell/bala-app/logs/DEBUG.log";
+//        String path = "E:/shell/bala-app/logs/DEBUG.log";
+        String path = "E:/shell/bala-wx/DEBUG.log";
         int defalutLineNumber = 15;
         String todatString = Pattern.compile("")
                 .splitAsStream(LocalDate.now().toString())
                 .skip(2)
                 .collect(Collectors.joining());
-        read(path, defalutLineNumber, todatString+" at ", "updateState", "","");
+        read(path, defalutLineNumber, todatString+" at ", "modify", "","");
 //        read(path, defalutLineNumber,  "table_id: 3440", "");
     }   
 

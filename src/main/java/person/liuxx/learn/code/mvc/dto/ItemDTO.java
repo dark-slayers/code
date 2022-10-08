@@ -1,7 +1,7 @@
 package person.liuxx.learn.code.mvc.dto;
 
 import person.liuxx.learn.code.mvc.domain.Item;
-import person.liuxx.util.bean.LocalDateBeanUtil;
+import person.liuxx.util.bean.BeanUtil;
 
 /**
  * @author 刘湘湘
@@ -18,7 +18,7 @@ public class ItemDTO
     public Item createItem()
     {
         Item item = new Item();
-        LocalDateBeanUtil.copyProperties(item, this);
+        BeanUtil.copyProperties(item, this);
         return item;
     }
 

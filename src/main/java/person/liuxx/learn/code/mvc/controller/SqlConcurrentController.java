@@ -31,7 +31,7 @@ public class SqlConcurrentController
     @PostMapping("/item")
     public Item addItem(@RequestBody ItemDTO item)
     {
-        return service.saveItem(item).orElseThrow(() ->
+        return service.saveItem(item).<SaveException>orElseThrow(() ->
         {
             throw new SaveException("添加item失败：" + item);
         });

@@ -1,0 +1,27 @@
+package ${serviceImplPackage};
+
+import java.util.Optional;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import ${daoPackage}.${className}Repository;
+import ${entityPackage}.${className};
+import ${servicePackage}.${className}Service;
+
+@Service
+public class ${className}ServiceImpl implements ${className}Service {
+    @Resource
+    private ${className}Repository ${smallClassName}Dao;
+    
+    @Override
+    public ${className} save(${className} entity) {
+        return ${smallClassName}Dao.save(entity);
+    }
+    
+    @Override
+    public Optional<${className}> getById(Long id) {
+        return ${smallClassName}Dao.findById(id);
+    }
+}

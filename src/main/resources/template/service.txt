@@ -1,0 +1,13 @@
+package ${servicePackage};
+
+import java.util.Optional;
+import ${entityPackage}.${className};
+
+
+public interface ${className}Service {
+
+    ${className} save(${className} entity);
+
+    Optional<${className}> getById(Long id);
+
+}

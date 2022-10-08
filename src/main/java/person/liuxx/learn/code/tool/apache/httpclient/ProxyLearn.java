@@ -30,64 +30,53 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import person.liuxx.util.log.LogUtil;
-
 /**
  * @author 刘湘湘
+ * 
  * @version 1.0.0<br>
  *          创建时间：2017年8月29日 上午8:30:32
+ * 
  * @since 1.0.0
  */
-public class ProxyLearn
-{
+public class ProxyLearn {
     private static Logger log = LogManager.getLogger();
     private static final long TIME_OUT = 15;
     private static String cookie;
 
-    static class R implements ResponseHandler<Optional<String>>
-    {
+    static class R implements ResponseHandler<Optional<String>> {
         @Override
         public Optional<String> handleResponse(ClassicHttpResponse response) throws HttpException,
-                IOException
-        {
+                IOException {
             final int status = response.getCode();
-            if (status >= HttpStatus.SC_SUCCESS && status < HttpStatus.SC_REDIRECTION)
-            {
+            if (status >= HttpStatus.SC_SUCCESS && status < HttpStatus.SC_REDIRECTION) {
                 log.info("获取服务器相应：{}", status);
                 final HttpEntity entity = response.getEntity();
-                try
-                {
+                try {
                     String body = entity != null ? EntityUtils.toString(entity, "UTF-8") : null;
                     return Optional.ofNullable(body);
-                } catch (final ParseException ex)
-                {
+                } catch (final ParseException ex) {
                     throw new ClientProtocolException(ex);
                 }
-            } else
-            {
+            } else {
                 log.warn("HttpStatus:{}", status);
                 log.info("获取服务器相应：{}", status);
                 final HttpEntity entity = response.getEntity();
-                try
-                {
+                try {
                     String body = entity != null ? EntityUtils.toString(entity) : null;
                     Script script = new Script(body);
                     cookie = response.getSingleHeader("Set-Cookie").getValue().split(";")[0] + "; "
                             + script.getA().getCookie();
                     log.warn("set cookie : {}", cookie);
-                } catch (ProtocolException e)
-                {
-                    log.error(LogUtil.errorInfo(e));
+                } catch (ProtocolException e) {
+                    log.error(e);
                 }
                 return Optional.empty();
             }
         }
     }
 
-    static void test()
-    {
-        try (CloseableHttpClient httpclient = HttpClients.createDefault())
-        {
+    static void test() {
+        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
             final HttpGet httpget = new HttpGet("http://www.kuaidaili.com/ops/proxylist/1/");
             RequestConfig defaultRequestConfig = RequestConfig.custom()
                     .setCookieSpec(CookieSpecs.STANDARD)
@@ -114,53 +103,44 @@ public class ProxyLearn
             Optional<String> op = httpclient.execute(httpget, responseHandler);
             Optional<String> op2 = Optional.empty();
             String responseBody = "";
-            if (!op.isPresent())
-            {
+            if (!op.isPresent()) {
                 httpget.addHeader("Cookie", cookie);
                 op2 = httpclient.execute(httpget, responseHandler);
-                if (!op2.isPresent())
-                {
+                if (!op2.isPresent()) {
                     log.warn("无法获取服务器响应！");
                     return;
                 }
                 responseBody = op2.get();
-            } else
-            {
+            } else {
                 responseBody = op.get();
             }
             log.info("responseBody:{}", responseBody);
             Document doc = Jsoup.parse(responseBody);
-            Element table = doc.getElementsByClass("table table-bordered table-striped")
-                    .get(0);
+            Element table = doc.getElementsByClass("table table-bordered table-striped").get(0);
             Elements trs = table.getElementsByTag("tr");
             List<String> list = new ArrayList<>();
-            for (Element tr : trs)
-            {
+            for (Element tr : trs) {
                 list.add(tr.text());
             }
             log.info("list:{}", list);
             String[] array = list.get(0).split(" ");
             System.out.println(Arrays.toString(array));
-            list.stream().map(l -> l.split(" ")).filter(a -> a[0].contains(".")).forEach(a ->
-            {
+            list.stream().map(l -> l.split(" ")).filter(a -> a[0].contains(".")).forEach(a -> {
                 System.out.println(a[0]);
                 System.out.println(a[1]);
                 System.out.println("------");
             });
-        } catch (IOException | URISyntaxException e)
-        {
-            log.error(LogUtil.errorInfo(e));
+        } catch (IOException | URISyntaxException e) {
+            log.error(e);
         }
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         test();
     }
 }
 
-class A
-{
+class A {
     int[] array;
     int q1;
     int q2;
@@ -177,22 +157,18 @@ class A
     int q13;
     int q14;
 
-    String r()
-    {
+    String r() {
         int qo = q2;
-        do
-        {
+        do {
             array[qo] = (-array[qo]) & 0xff;
             array[qo] = (((array[qo] >> q3) | ((array[qo] << q4) & 0xff)) - q5) & 0xff;
         } while (--qo >= 2);
         qo = q6;
-        do
-        {
+        do {
             array[qo] = (array[qo] - array[qo - 1]) & 0xff;
         } while (--qo >= 3);
         qo = 1;
-        for (;;)
-        {
+        for (;;) {
             if (qo > q7)
                 break;
             array[qo] = ((((((array[qo] + q8) & 0xff) + q9) & 0xff) << q10) & 0xff) | (((((array[qo]
@@ -200,24 +176,21 @@ class A
             qo++;
         }
         String po = "";
-        for (qo = 1; qo < array.length - 1; qo++)
-        {
+        for (qo = 1; qo < array.length - 1; qo++) {
             if (qo % q14 != 0)
                 po += String.valueOf((char) (array[qo] ^ q1));
         }
         return po;
     }
 
-    String getCookie()
-    {
+    String getCookie() {
         String s = r();
         String cookie = s.split(";")[0].substring(17);
         return cookie;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "A [array=" + Arrays.toString(array) + ", q1=" + q1 + ", q2=" + q2 + ", q3=" + q3
                 + ", q4=" + q4 + ", q5=" + q5 + ", q6=" + q6 + ", q7=" + q7 + ", q8=" + q8 + ", q9="
                 + q9 + ", q10=" + q10 + ", q11=" + q11 + ", q12=" + q12 + ", q13=" + q13 + ", q14="
@@ -225,21 +198,18 @@ class A
     }
 }
 
-class Script
-{
+class Script {
     private String script;
     private String text;
 
     /**
      * @param group
      */
-    public Script(String script)
-    {
+    public Script(String script) {
         this.script = script;
     }
 
-    A getA()
-    {
+    A getA() {
         A a = new A();
         int endIndex = script.indexOf(")\",");
         text = script.substring(0, endIndex).trim();
@@ -253,8 +223,7 @@ class Script
         String arrayText = text.substring(0, endIndex).trim();
         String[] textArray = arrayText.split(",");
         a.array = new int[textArray.length];
-        for (int i = 0, max = textArray.length; i < max; i++)
-        {
+        for (int i = 0, max = textArray.length; i < max; i++) {
             a.array[i] = Integer.valueOf(textArray[i].substring(2).trim(), 16);
         }
         text = text.substring(endIndex + 1).trim();
@@ -274,8 +243,7 @@ class Script
         return a;
     }
 
-    int getNumber(String begin, String end)
-    {
+    int getNumber(String begin, String end) {
         int beginIndex = text.indexOf(begin);
         text = text.substring(beginIndex + begin.length()).trim();
         int endIndex = text.indexOf(end);

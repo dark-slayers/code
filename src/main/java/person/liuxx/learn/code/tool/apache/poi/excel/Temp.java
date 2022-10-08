@@ -104,7 +104,7 @@ public class Temp
                 return Integer.valueOf(text);
             }
         });
-        return cellValue.orElseThrow(() ->
+        return cellValue.<IllegalArgumentException>orElseThrow(() ->
         {
             throw new IllegalArgumentException("aaaaa");
         });
